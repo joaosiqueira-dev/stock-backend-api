@@ -8,7 +8,7 @@ import { handleGetProduct, handlerUpdateProduct, listProducts, registerProduct, 
 import cors from '@fastify/cors'
 
 dotenv.config()
-export const prisma = new PrismaClient
+export const prisma = new PrismaClient()
 
 export const app = Fastify({ logger: true })
 
@@ -17,7 +17,7 @@ app.register(fastifyJwt, {
 })
 
 app.register(cors, {
-  origin: true,
+  origin: ['http://localhost:5173' , 'http://stock-backend-api-production.up.railway.app'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 })
 
@@ -51,5 +51,5 @@ removeProduct()
 const port = Number(process.env.PORT) || 3333
 
 app.listen({ port, host: "0.0.0.0" }).then(() => {
-    console.log("Server rodando na porta 3333")
+    console.log(`Server rodando na porta ${port}`)
 })
