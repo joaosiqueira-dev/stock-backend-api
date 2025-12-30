@@ -93,3 +93,5 @@ export async function deleteUser(request: FastifyRequest, reply: FastifyReply) {
         return reply.code(404).send({message: "Usuário não encontrado"})
         }
 }
+
+//user auths
