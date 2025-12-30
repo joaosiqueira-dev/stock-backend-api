@@ -50,6 +50,4 @@ removeProduct()
 
 const port = Number(process.env.PORT) || 3333
 
-app.listen({ port, host: "0.0.0.0" }).then(() => {
-    console.log(`Server rodando na porta ${port}`)
-})
+app.listen({ port, host: "0.0.0.0" })

@@ -20,7 +20,7 @@ export async function createUser(request: FastifyRequest<{Body: CreateUserBody}>
         const { name, email, password } = request.body
         const hashedPassword = await bcrypt.hash(password, 10)
         const user = await prisma.user.create({ data: { name, email, password: hashedPassword }})
-        return reply.code(201).send({id: user.id, nome: user.name, email: user.email})
+        return reply.code(201).send({id: user.id, name: user.name, email: user.email})
     } catch (err: any) {
         if (err.code === "P2002") {
             return reply.status(409).send({
@@ -45,7 +45,7 @@ export async function loginUser(request: FastifyRequest<{Body: LoginUserBody}>, 
             if(!isValid) return reply.code(401).send({ message: "E-mail ou senha incorretos" })
                 
         const token = request.server.jwt.sign({ id: user.id, email: user.email}, {expiresIn: process.env.JWT_EXPIRES_IN })
-        return reply.code(200).send({ token, user: { id: user.id, nome: user.name, email: user.email } })
+        return reply.code(200).send({ token, user: { id: user.id, name: user.name, email: user.email } })
     } catch (err: any) {
         return reply.status(500).send({
             message: "Erro interno ao realizar login" 
@@ -59,7 +59,7 @@ export async function getUser(request: FastifyRequest, reply: FastifyReply) {
         const userId = request.user.id 
         const user = await prisma.user.findUnique({ where: { id: userId } })
         if(!user) return reply.code(404).send({message: "Usuário não encontrado"})
-            return reply.send({ id: user.id, nome: user.name, email: user.email })
+            return reply.send({ id: user.id, name: user.name, email: user.email })
     } catch (err: any) {
         return reply.status(500).send({
             message: "Erro interno ao encontrar usuário" 
@@ -78,7 +78,7 @@ export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
 
     try {
         const user = await prisma.user.update({ where: { id: userId }, data })
-        return reply.send({ id: user.id, nome: user.name, email: user.email })
+        return reply.send({ id: user.id, name: user.name, email: user.email })
     } catch (err) {
         return reply.code(404).send({ message: "Usuário não encontrado" })
     }
