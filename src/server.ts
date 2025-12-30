@@ -17,7 +17,7 @@ app.register(fastifyJwt, {
 })
 
 app.register(cors, {
-  origin: ['http://localhost:5173' , 'http://stock-backend-api-production.up.railway.app'],
+  origin: ['https://stock-frontend-zeta.vercel.app'],
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 })
 
